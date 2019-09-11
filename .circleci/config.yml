@@ -59,6 +59,7 @@ jobs:
           key: ponyc-libs-ubuntu-{{ .Branch }}-{{ .Revision }}
           paths:
             - "build/libs"
+      - run: make -f Makefile configure config=debug
       - run: make -f Makefile all config=debug
       - run: make -f Makefile test-ci config=debug
       - zulip/status:
@@ -80,6 +81,7 @@ jobs:
           key: ponyc-libs-ubuntu-{{ .Branch }}-{{ .Revision }}
           paths:
             - "build/libs"
+      - run: make -f Makefile configure config=debug
       - run: make -f Makefile all config=release
       - run: make -f Makefile test-ci config=release
       - zulip/status:
@@ -101,6 +103,7 @@ jobs:
           key: ponyc-libs-alpine-{{ .Branch }}-{{ .Revision }}
           paths:
             - "build/libs"
+      - run: make -f Makefile configure config=debug
       - run: make -f Makefile all config=debug
       - run: make -f Makefile test-ci config=debug
       - zulip/status:
@@ -122,6 +125,7 @@ jobs:
           key: ponyc-libs-alpine-{{ .Branch }}-{{ .Revision }}
           paths:
             - "build/libs"
+      - run: make -f Makefile configure config=debug
       - run: make -f Makefile all config=release
       - run: make -f Makefile test-ci config=release
       - zulip/status:
@@ -258,6 +262,12 @@ workflows:
       - validate-shell-scripts:
           context: org-global
 
+      - validate-docker-image-builds:
+          requires:
+            - verify-changelog
+            - validate-shell-scripts
+          context: org-global
+
       - ubuntu-lib-llvm-release:
           requires:
             - verify-changelog
@@ -265,12 +275,6 @@ workflows:
           context: org-global
 
       - ubuntu-lib-llvm-debug:
-          requires:
-            - verify-changelog
-            - validate-shell-scripts
-          context: org-global
-
-      - validate-docker-image-builds:
           requires:
             - verify-changelog
             - validate-shell-scripts
