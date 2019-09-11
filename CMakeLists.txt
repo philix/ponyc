@@ -15,7 +15,7 @@ execute_process(
 project(Pony VERSION ${PONYC_VERSION} LANGUAGES C CXX)
 
 # Uncomment this to show build commands
-set(CMAKE_VERBOSE_MAKEFILE ON)
+# set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # We require LLVM, Google Test and Google Benchmark
 find_package(LLVM REQUIRED CONFIG PATHS "build/libs/lib/cmake/llvm" NO_DEFAULT_PATH)
