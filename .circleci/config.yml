@@ -51,12 +51,10 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - ponyc-libs-ubuntu-{{ .Branch }}-{{ .Revision }}
-            - ponyc-libs-ubuntu-{{ .Branch }}-
-            - ponyc-libs-ubuntu-
+            - ponyc-libs-ubuntu-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
       - run: make -f Makefile libs
       - save_cache:
-          key: ponyc-libs-ubuntu-{{ .Branch }}-{{ .Revision }}
+          key: ponyc-libs-ubuntu-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
           paths:
             - "build/libs"
       - run: make -f Makefile configure config=debug
@@ -73,12 +71,10 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - ponyc-libs-ubuntu-{{ .Branch }}-{{ .Revision }}
-            - ponyc-libs-ubuntu-{{ .Branch }}-
-            - ponyc-libs-ubuntu-
+            - ponyc-libs-ubuntu-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
       - run: make -f Makefile libs
       - save_cache:
-          key: ponyc-libs-ubuntu-{{ .Branch }}-{{ .Revision }}
+          key: ponyc-libs-ubuntu-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
           paths:
             - "build/libs"
       - run: make -f Makefile configure config=debug
@@ -95,12 +91,10 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - ponyc-libs-alpine-{{ .Branch }}-{{ .Revision }}
-            - ponyc-libs-alpine-{{ .Branch }}-
-            - ponyc-libs-alpine-
+            - ponyc-libs-alpine-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
       - run: make -f Makefile libs
       - save_cache:
-          key: ponyc-libs-alpine-{{ .Branch }}-{{ .Revision }}
+          key: ponyc-libs-alpine-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
           paths:
             - "build/libs"
       - run: make -f Makefile configure config=debug
@@ -117,12 +111,10 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - ponyc-libs-alpine-{{ .Branch }}-{{ .Revision }}
-            - ponyc-libs-alpine-{{ .Branch }}-
-            - ponyc-libs-alpine-
+            - ponyc-libs-alpine-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
       - run: make -f Makefile libs
       - save_cache:
-          key: ponyc-libs-alpine-{{ .Branch }}-{{ .Revision }}
+          key: ponyc-libs-alpine-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
           paths:
             - "build/libs"
       - run: make -f Makefile configure config=debug

@@ -18,8 +18,8 @@ RUN apt-get update \
   curl
 
 # install a newer cmake
-RUN wget https://cmake.org/files/v3.11/cmake-3.11.2-Linux-x86_64.sh \
- && sh cmake-3.11.2-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir
+RUN wget https://cmake.org/files/v3.15/cmake-3.15.3-Linux-x86_64.sh \
+ && sh cmake-3.15.3-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir
 
 # install newer git to support submodules
 RUN apt-get install -y gettext libcurl3-dev libexpat-dev zlib1g-dev \
