@@ -4,14 +4,14 @@ orbs:
   zulip: ponylang/zulip@1
 
 jobs:
-  # x86-64-unknown-linux-gnu-nightly:
-  #   docker:
-  #     - image: ponylang/ponyc-ci:x86-64-unknown-linux-gnu-nightly
-  #   steps:
-  #     - checkout
-  #     - run: bash .ci-scripts/x86-64-unknown-linux-gnu-nightly.bash ${CLOUDSMITH_API_KEY}
-  #     - zulip/status:
-  #         fail_only: true
+  x86-64-unknown-linux-gnu-nightly:
+    docker:
+      - image: ponylang/ponyc-ci:x86-64-unknown-linux-gnu-nightly
+    steps:
+      - checkout
+      - run: bash .ci-scripts/x86-64-unknown-linux-gnu-nightly.bash ${CLOUDSMITH_API_KEY}
+      - zulip/status:
+          fail_only: true
 
   verify-changelog:
     docker:
@@ -49,12 +49,16 @@ jobs:
         user: pony
     steps:
       - checkout
+      - run:
+          command: |
+            echo 'export SUBMODULE_HASH=`git submodule status | cut -f 2 -d " "`' >> $BASH_ENV
+            source $BASH_ENV
       - restore_cache:
           keys:
-            - ponyc-libs-ubuntu-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
+            - ponyc-libs-ubuntu-{{ .Environment.SUBMODULE_HASH }}
       - run: make -f Makefile libs
       - save_cache:
-          key: ponyc-libs-ubuntu-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
+          key: ponyc-libs-ubuntu-{{ .Environment.SUBMODULE_HASH }}
           paths:
             - "build/libs"
       - run: make -f Makefile configure config=debug
@@ -69,15 +73,19 @@ jobs:
         user: pony
     steps:
       - checkout
+      - run:
+          command: |
+            echo 'export SUBMODULE_HASH=`git submodule status | cut -f 2 -d " "`' >> $BASH_ENV
+            source $BASH_ENV
       - restore_cache:
           keys:
-            - ponyc-libs-ubuntu-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
+            - ponyc-libs-ubuntu-{{ .Environment.SUBMODULE_HASH }}
       - run: make -f Makefile libs
       - save_cache:
-          key: ponyc-libs-ubuntu-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
+          key: ponyc-libs-ubuntu-{{ .Environment.SUBMODULE_HASH }}
           paths:
             - "build/libs"
-      - run: make -f Makefile configure config=debug
+      - run: make -f Makefile configure config=release
       - run: make -f Makefile all config=release
       - run: make -f Makefile test-ci config=release
       - zulip/status:
@@ -89,12 +97,16 @@ jobs:
         user: pony
     steps:
       - checkout
+      - run:
+          command: |
+            echo 'export SUBMODULE_HASH=`git submodule status | cut -f 2 -d " "`' >> $BASH_ENV
+            source $BASH_ENV
       - restore_cache:
           keys:
-            - ponyc-libs-alpine-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
+            - ponyc-libs-alpine-{{ .Environment.SUBMODULE_HASH }}
       - run: make -f Makefile libs
       - save_cache:
-          key: ponyc-libs-alpine-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
+          key: ponyc-libs-alpine-{{ .Environment.SUBMODULE_HASH }}
           paths:
             - "build/libs"
       - run: make -f Makefile configure config=debug
@@ -109,12 +121,16 @@ jobs:
         user: pony
     steps:
       - checkout
+      - run:
+          command: |
+            echo 'export SUBMODULE_HASH=`git submodule status | cut -f 2 -d " "`' >> $BASH_ENV
+            source $BASH_ENV
       - restore_cache:
           keys:
-            - ponyc-libs-alpine-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
+            - ponyc-libs-alpine-{{ .Environment.SUBMODULE_HASH }}
       - run: make -f Makefile libs
       - save_cache:
-          key: ponyc-libs-alpine-{{ checksum "lib/llvm/src/llvm/CMakeLists.txt" }}
+          key: ponyc-libs-alpine-{{ .Environment.SUBMODULE_HASH }}
           paths:
             - "build/libs"
       - run: make -f Makefile configure config=debug
@@ -254,11 +270,11 @@ workflows:
       - validate-shell-scripts:
           context: org-global
 
-      - validate-docker-image-builds:
-          requires:
-            - verify-changelog
-            - validate-shell-scripts
-          context: org-global
+      # - validate-docker-image-builds:
+      #     requires:
+      #       - verify-changelog
+      #       - validate-shell-scripts
+      #     context: org-global
 
       - ubuntu-lib-llvm-release:
           requires:
