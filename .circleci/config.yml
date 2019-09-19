@@ -49,16 +49,12 @@ jobs:
         user: pony
     steps:
       - checkout
-      - run:
-          command: |
-            echo 'export SUBMODULE_HASH=`git submodule status | cut -f 2 -d " "`' >> $BASH_ENV
-            source $BASH_ENV
       - restore_cache:
           keys:
-            - ponyc-libs-ubuntu-{{ .Environment.SUBMODULE_HASH }}
+            - ponyc-libs-ubuntu-{{ checksum "lib/CMakeLists.txt" }}
       - run: make -f Makefile libs
       - save_cache:
-          key: ponyc-libs-ubuntu-{{ .Environment.SUBMODULE_HASH }}
+          key: ponyc-libs-ubuntu-{{ checksum "lib/CMakeLists.txt" }}
           paths:
             - "build/libs"
       - run: make -f Makefile configure config=debug
@@ -73,16 +69,12 @@ jobs:
         user: pony
     steps:
       - checkout
-      - run:
-          command: |
-            echo 'export SUBMODULE_HASH=`git submodule status | cut -f 2 -d " "`' >> $BASH_ENV
-            source $BASH_ENV
       - restore_cache:
           keys:
-            - ponyc-libs-ubuntu-{{ .Environment.SUBMODULE_HASH }}
+            - ponyc-libs-ubuntu-{{ checksum "lib/CMakeLists.txt" }}
       - run: make -f Makefile libs
       - save_cache:
-          key: ponyc-libs-ubuntu-{{ .Environment.SUBMODULE_HASH }}
+          key: ponyc-libs-ubuntu-{{ checksum "lib/CMakeLists.txt" }}
           paths:
             - "build/libs"
       - run: make -f Makefile configure config=release
@@ -97,16 +89,12 @@ jobs:
         user: pony
     steps:
       - checkout
-      - run:
-          command: |
-            echo 'export SUBMODULE_HASH=`git submodule status | cut -f 2 -d " "`' >> $BASH_ENV
-            source $BASH_ENV
       - restore_cache:
           keys:
-            - ponyc-libs-alpine-{{ .Environment.SUBMODULE_HASH }}
+            - ponyc-libs-alpine-{{ checksum "lib/CMakeLists.txt" }}
       - run: make -f Makefile libs
       - save_cache:
-          key: ponyc-libs-alpine-{{ .Environment.SUBMODULE_HASH }}
+          key: ponyc-libs-alpine-{{ checksum "lib/CMakeLists.txt" }}
           paths:
             - "build/libs"
       - run: make -f Makefile configure config=debug
@@ -121,16 +109,12 @@ jobs:
         user: pony
     steps:
       - checkout
-      - run:
-          command: |
-            echo 'export SUBMODULE_HASH=`git submodule status | cut -f 2 -d " "`' >> $BASH_ENV
-            source $BASH_ENV
       - restore_cache:
           keys:
-            - ponyc-libs-alpine-{{ .Environment.SUBMODULE_HASH }}
+            - ponyc-libs-alpine-{{ checksum "lib/CMakeLists.txt" }}
       - run: make -f Makefile libs
       - save_cache:
-          key: ponyc-libs-alpine-{{ .Environment.SUBMODULE_HASH }}
+          key: ponyc-libs-alpine-{{ checksum "lib/CMakeLists.txt" }}
           paths:
             - "build/libs"
       - run: make -f Makefile configure config=debug

@@ -29,6 +29,9 @@ install(TARGETS blake2
 )
 
 find_package(Git)
+
+set(LLVM_DESIRED_HASH "d0d8eb2e5415b8be29343e3c17a18e49e67b5551")
+
 if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/../.git")
 # Update submodules as needed
     option(GIT_SUBMODULE "Check submodules during build" ON)
@@ -39,6 +42,16 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/../.git")
                         RESULT_VARIABLE GIT_SUBMOD_RESULT)
         if(NOT GIT_SUBMOD_RESULT EQUAL "0")
             message(FATAL_ERROR "git submodule update --init --recursive failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+        endif()
+
+        # we check to make sure the submodule hash matches
+        # the reason the submodule hash is in this file is to be able to use this file as a key for caching the libs in CI
+        execute_process(COMMAND ${GIT_EXECUTABLE} submodule status
+                        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                        OUTPUT_VARIABLE GIT_SUBMOD_STATUS)
+        string(FIND "${GIT_SUBMOD_STATUS}" "${LLVM_DESIRED_HASH}" LLVM_SUBMOD_POS)
+        if(LLVM_SUBMOD_POS EQUAL "-1")
+            message(FATAL_ERROR "Expecting the lib/llvm/src submodule to be at hash '${LLVM_DESIRED_HASH}'; found '${GIT_SUBMOD_STATUS}'; update the LLVM_DESIRED_HASH variable in lib/CMakeLists.txt if you've updated the submodule.")
         endif()
     endif()
 endif()
