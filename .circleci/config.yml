@@ -52,7 +52,7 @@ jobs:
       - restore_cache:
           keys:
             - ponyc-libs-ubuntu-{{ checksum "lib/CMakeLists.txt" }}
-      - run: make -f Makefile libs
+      - run: if [ ! -d build/libs/bin ]; then make -f Makefile libs; fi
       - save_cache:
           key: ponyc-libs-ubuntu-{{ checksum "lib/CMakeLists.txt" }}
           paths:
@@ -72,7 +72,7 @@ jobs:
       - restore_cache:
           keys:
             - ponyc-libs-ubuntu-{{ checksum "lib/CMakeLists.txt" }}
-      - run: make -f Makefile libs
+      - run: if [ ! -d build/libs/bin ]; then make -f Makefile libs; fi
       - save_cache:
           key: ponyc-libs-ubuntu-{{ checksum "lib/CMakeLists.txt" }}
           paths:
@@ -92,7 +92,7 @@ jobs:
       - restore_cache:
           keys:
             - ponyc-libs-alpine-{{ checksum "lib/CMakeLists.txt" }}
-      - run: make -f Makefile libs
+      - run: if [ ! -d build/libs/bin ]; then make -f Makefile libs; fi
       - save_cache:
           key: ponyc-libs-alpine-{{ checksum "lib/CMakeLists.txt" }}
           paths:
@@ -112,7 +112,7 @@ jobs:
       - restore_cache:
           keys:
             - ponyc-libs-alpine-{{ checksum "lib/CMakeLists.txt" }}
-      - run: make -f Makefile libs
+      - run: if [ ! -d build/libs/bin ]; then make -f Makefile libs; fi
       - save_cache:
           key: ponyc-libs-alpine-{{ checksum "lib/CMakeLists.txt" }}
           paths:
