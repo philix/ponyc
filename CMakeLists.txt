@@ -18,9 +18,9 @@ project(Pony VERSION ${PONYC_VERSION} LANGUAGES C CXX)
 # set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # We require LLVM, Google Test and Google Benchmark
-find_package(LLVM REQUIRED CONFIG PATHS "build/libs/lib/cmake/llvm" NO_DEFAULT_PATH)
-find_package(GTest REQUIRED CONFIG PATHS "build/libs/lib/cmake/GTest" NO_DEFAULT_PATH)
-find_package(benchmark REQUIRED CONFIG PATHS "build/libs/lib/cmake/benchmark" NO_DEFAULT_PATH)
+find_package(LLVM REQUIRED CONFIG PATHS "build/libs/lib/cmake/llvm" "build/libs/lib64/cmake/llvm" NO_DEFAULT_PATH)
+find_package(GTest REQUIRED CONFIG PATHS "build/libs/lib/cmake/GTest" "build/libs/lib64/cmake/GTest" NO_DEFAULT_PATH)
+find_package(benchmark REQUIRED CONFIG PATHS "build/libs/lib/cmake/benchmark" "build/libs/lib64/cmake/benchmark" NO_DEFAULT_PATH)
 
 # LibPonyC tests assume that our outputs are two directories above the root directory.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/../debug)
