@@ -117,7 +117,7 @@ jobs:
           key: ponyc-libs-alpine-{{ checksum "lib/CMakeLists.txt" }}
           paths:
             - "build/libs"
-      - run: make -f Makefile configure config=debug
+      - run: make -f Makefile configure config=release
       - run: make -f Makefile all config=release
       - run: make -f Makefile test-ci config=release
       - zulip/status:
