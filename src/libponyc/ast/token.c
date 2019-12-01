@@ -67,7 +67,9 @@ token_t* token_dup(token_t* token)
   token_t* t = POOL_ALLOC(token_t);
   memcpy(t, token, sizeof(token_t));
   t->printed = NULL;
+#ifndef PONY_NDEBUG
   t->frozen = false;
+#endif
   return t;
 }
 
@@ -428,10 +430,13 @@ static void token_docstring_signature_serialise_trace(pony_ctx_t* ctx,
   void* object)
 {
   (void)ctx;
+  (void)object;
 
+#ifndef PONY_NDEBUG
   token_t* token = (token_t*)object;
 
   pony_assert(token->id == TK_STRING);
+#endif
 }
 
 static void token_docstring_signature_serialise(pony_ctx_t* ctx, void* object,

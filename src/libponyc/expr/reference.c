@@ -429,6 +429,7 @@ bool expr_dontcareref(pass_opt_t* opt, ast_t* ast)
 bool expr_local(pass_opt_t* opt, ast_t* ast)
 {
   (void)opt;
+  (void)ast;
   pony_assert(ast_type(ast) != NULL);
 
   return true;

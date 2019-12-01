@@ -1558,7 +1558,9 @@ void ast_free(ast_t* ast)
   if(ast == NULL)
     return;
 
+#ifndef PONY_NDEBUG
   ast->frozen = false;
+#endif
 
   ast_t* child = ast->child;
   ast_t* next;
@@ -1604,6 +1606,7 @@ void ast_free_unattached(ast_t* ast)
 
 bool ast_is_frozen(ast_t* ast)
 {
+  (void)ast;
   pony_assert(ast != NULL);
 
 #ifndef PONY_NDEBUG
